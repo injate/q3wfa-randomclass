@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 set -ex
 
+export CGO_ENABVLED=0
 export GOARCH=amd64
 for GOOS in windows linux darwin ; do
     suffix="-$GOOS"
