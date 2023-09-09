@@ -19,7 +19,7 @@ jobs:
 
     - name: Build binaries
       run: |
-        ./build.sh
+        sh -ex ./build.sh
 
     - name: Create Release
       id: create_release
