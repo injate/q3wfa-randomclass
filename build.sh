@@ -1,10 +1,4 @@
-#!/usr/bin/env sh
-set -ex
-
-export CGO_ENABLED=0
-export GOARCH=amd64
-for GOOS in windows linux darwin ; do
-    suffix="-$GOOS"
-    if [ "$GOOS" = "windows" ]; then suffix=".exe"; fi
-    go build -a -ldflags "-extldflags \"-static\"" -o "randomclass${suffix}"
-done
+set -x
+GOOS=windows CGO_ENABLED=0 GOARCH=amd64 go build -a -ldflags "-extldflags \"-static\"" -o "randomclass.exe"
+GOOS=linux CGO_ENABLED=0 GOARCH=amd64 go build -a -ldflags "-extldflags \"-static\"" -o "randomclass-linux"
+GOOS=darwin CGO_ENABLED=0 GOARCH=amd64 go build -a -ldflags "-extldflags \"-static\"" -o "randomclass-darwin"

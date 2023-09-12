@@ -7,6 +7,8 @@ import (
     "time"
 )
 
+const timeBuffer = 2 * time.Second // 2-second buffer to avoid self-trigger
+
 func generateNewClass(lastClass string) (string, error) {
     classes := []string{
         "class recon", "class nurse", "class engineer", "class marine",
@@ -44,14 +46,14 @@ func main() {
     rand.Seed(time.Now().Unix())
 
     lastClass, err := generateNewClass("")
-    lastAccessTime := time.Now() // Initialize to a past time
+    lastAccessTime := time.Now().Add(-timeBuffer) // Initialize to a past time
     if err != nil {
         fmt.Println("Error writing to file:", err)
         return
     }
 
     for {
-        time.Sleep(1 * time.Second)
+        time.Sleep(250 * time.Millisecond)
 
         currentAccessTime, err := getLastAccessTime("randomclass.cfg")
         if err != nil {
@@ -59,7 +61,7 @@ func main() {
             return
         }
 
-        if currentAccessTime.After(lastAccessTime) {
+        if currentAccessTime.After(lastAccessTime.Add(timeBuffer)) {
             //fmt.Println("lastAccessTime: ", lastAccessTime)
             lastAccessTime = currentAccessTime
 
